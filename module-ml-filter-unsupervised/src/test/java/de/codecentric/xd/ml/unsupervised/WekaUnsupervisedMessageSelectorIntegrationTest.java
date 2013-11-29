@@ -9,7 +9,7 @@ import org.springframework.messaging.support.GenericMessage;
 public class WekaUnsupervisedMessageSelectorIntegrationTest {
 
 	@Test
-	public void test() {
+	public void test() throws Exception {
 		WekaUnsupervisedMessageSelector wekaUnsupervisedMessageSelector = new WekaUnsupervisedMessageSelector();
 		for (int i  = 0; i<= 10000; i++){
 			wekaUnsupervisedMessageSelector.accept(new GenericMessage<String>("2"));
