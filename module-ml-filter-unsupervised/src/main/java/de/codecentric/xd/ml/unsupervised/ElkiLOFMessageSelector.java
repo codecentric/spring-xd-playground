@@ -1,6 +1,11 @@
 package de.codecentric.xd.ml.unsupervised;
 
-import com.sun.deploy.util.StringUtils;
+
+import java.util.Arrays;
+
+import org.springframework.integration.core.MessageSelector;
+import org.springframework.messaging.Message;
+
 import de.lmu.ifi.dbs.elki.algorithm.outlier.LOF;
 import de.lmu.ifi.dbs.elki.algorithm.outlier.OnlineLOF;
 import de.lmu.ifi.dbs.elki.data.DoubleVector;
@@ -16,11 +21,6 @@ import de.lmu.ifi.dbs.elki.distance.distancevalue.DoubleDistance;
 import de.lmu.ifi.dbs.elki.result.outlier.OutlierResult;
 import de.lmu.ifi.dbs.elki.utilities.ClassGenericsUtil;
 import de.lmu.ifi.dbs.elki.utilities.optionhandling.parameterization.ListParameterization;
-import org.springframework.integration.core.MessageSelector;
-import org.springframework.messaging.Message;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class ElkiLOFMessageSelector implements MessageSelector {
 
