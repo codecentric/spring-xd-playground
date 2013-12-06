@@ -10,10 +10,12 @@ jar {
 repositories {
     mavenCentral()
     maven { url "http://repo.spring.io/libs-snapshot" }
+    maven { url "http://maven.mei.fm/nexus/content/repositories/releases" }
 }
 
 dependencies {
     compile("nz.ac.waikato.cms.weka:weka-stable:3.6.10")
     compile("org.springframework.integration:spring-integration-core:4.0.0.M1")
+    compile("de.lmu.ifi.dbs:elki:0.5.5")
     testCompile("junit:junit:4.11")
 }
