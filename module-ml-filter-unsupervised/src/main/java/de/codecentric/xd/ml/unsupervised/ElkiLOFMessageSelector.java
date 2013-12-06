@@ -1,5 +1,6 @@
 package de.codecentric.xd.ml.unsupervised;
 
+import com.sun.deploy.util.StringUtils;
 import de.lmu.ifi.dbs.elki.algorithm.outlier.LOF;
 import de.lmu.ifi.dbs.elki.algorithm.outlier.OnlineLOF;
 import de.lmu.ifi.dbs.elki.data.DoubleVector;
@@ -19,6 +20,7 @@ import org.springframework.integration.core.MessageSelector;
 import org.springframework.messaging.Message;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class ElkiLOFMessageSelector implements MessageSelector {
 
@@ -29,11 +31,11 @@ public class ElkiLOFMessageSelector implements MessageSelector {
     public ElkiLOFMessageSelector() throws Exception {
         super();
         initLOF();
-        initDatabase(0l);
+        initDatabase(0d);
     }
 
     private void initDatabase(double initialDataPoint) {
-        db = new HashmapDatabase(new ArrayAdapterDatabaseConnection(new double[][]{{initialDataPoint}}), null);
+        db = new HashmapDatabase(new ArrayAdapterDatabaseConnection(new double[][]{{initialDataPoint, initialDataPoint}}), null);
         db.initialize();
     }
 
@@ -49,11 +51,11 @@ public class ElkiLOFMessageSelector implements MessageSelector {
      */
     @Override
     public boolean accept(Message<?> message) {
-        Double newDataPoint = Double.valueOf(message.getPayload().toString());
+        Double[] newData = (Double[]) message.getPayload();
 
         try {
             Relation<Object> relation = db.getRelation(TypeUtil.DOUBLE_VECTOR_FIELD);
-            DoubleVector doubleVector = new DoubleVector(new double[]{newDataPoint});
+            DoubleVector doubleVector = new DoubleVector(newData);
             DBIDs insertedId = db.insert(MultipleObjectsBundle.makeSimple(relation.getDataTypeInformation(), Arrays.asList(doubleVector)));
 
             if (relation.size() > 100 && result == null) {
@@ -62,8 +64,8 @@ public class ElkiLOFMessageSelector implements MessageSelector {
 
             if (result != null) {
                 double score = result.getScores().get(insertedId.iter()).doubleValue();
-                System.out.println("Score of new data point '" + newDataPoint + "': " + score);
-                return score < 0.5;
+                System.out.println("Score of new data point (" + newData[0] + ","+newData[1]+"): " + score);
+                return score > 2;
             } else {
                 return false;
             }
