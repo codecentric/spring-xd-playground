@@ -4,6 +4,7 @@ package de.codecentric.xd.ml.unsupervised;
 import java.util.Arrays;
 
 import org.springframework.integration.core.MessageSelector;
+import org.springframework.integration.transformer.Transformer;
 import org.springframework.messaging.Message;
 
 import de.lmu.ifi.dbs.elki.algorithm.outlier.LOF;
@@ -24,9 +25,13 @@ import de.lmu.ifi.dbs.elki.utilities.optionhandling.parameterization.ListParamet
 
 public class ElkiLOFMessageSelector implements MessageSelector {
 
-    private LOF<NumberVector<Double>, DoubleDistance> lof;
+	public static final String ELKI_DOUBLE_VECTOR = "ELKI_DOUBLE_VECTOR";
+
+	private LOF<NumberVector<Double>, DoubleDistance> lof;
     private UpdatableDatabase db;
     private OutlierResult result;
+    
+    private Transformer defaultElkiLOFMessageTransformer = new DefaultElkiLOFMessageTransformer();
 
     public ElkiLOFMessageSelector() throws Exception {
         super();
@@ -51,7 +56,10 @@ public class ElkiLOFMessageSelector implements MessageSelector {
      */
     @Override
     public boolean accept(Message<?> message) {
-        Double[] newData = (Double[]) message.getPayload();
+    	if (!message.getHeaders().containsKey(ELKI_DOUBLE_VECTOR)){
+    		message = defaultElkiLOFMessageTransformer.transform(message);
+    	}
+        Double[] newData = message.getHeaders().get(ELKI_DOUBLE_VECTOR, Double[].class);
 
         try {
             Relation<Object> relation = db.getRelation(TypeUtil.DOUBLE_VECTOR_FIELD);
