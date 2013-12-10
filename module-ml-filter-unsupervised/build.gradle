@@ -17,5 +17,6 @@ dependencies {
     compile("nz.ac.waikato.cms.weka:weka-stable:3.6.10")
     compile("org.springframework.integration:spring-integration-core:4.0.0.M1")
     compile("de.lmu.ifi.dbs:elki:0.5.5")
+    compile("org.codehaus.jackson:jackson-mapper-asl:1.9.13")
     testCompile("junit:junit:4.11")
 }
