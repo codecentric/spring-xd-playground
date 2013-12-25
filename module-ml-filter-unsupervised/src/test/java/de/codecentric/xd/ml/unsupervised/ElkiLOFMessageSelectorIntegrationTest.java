@@ -14,7 +14,7 @@ public class ElkiLOFMessageSelectorIntegrationTest {
 
     @Test
     public void test() throws Exception {
-        ElkiLOFMessageSelector wekaUnsupervisedMessageSelector = new ElkiLOFMessageSelector();
+        ElkiLOFMessageSelector wekaUnsupervisedMessageSelector = new ElkiLOFMessageSelector(2);
         for (int i  = 0; i<= 100; i++){
             wekaUnsupervisedMessageSelector.accept(new GenericMessage<Double[]>(randomize(1d,1d,0.2)));
         }

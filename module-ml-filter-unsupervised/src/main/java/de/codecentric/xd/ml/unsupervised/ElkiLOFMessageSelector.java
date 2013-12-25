@@ -33,14 +33,18 @@ public class ElkiLOFMessageSelector implements MessageSelector {
     
     private Transformer defaultElkiLOFMessageTransformer = new DefaultElkiLOFMessageTransformer();
 
-    public ElkiLOFMessageSelector() throws Exception {
+    public ElkiLOFMessageSelector(int dimensions) throws Exception {
         super();
         initLOF();
-        initDatabase(0d);
+        initDatabase(0d, dimensions);
     }
 
-    private void initDatabase(double initialDataPoint) {
-        db = new HashmapDatabase(new ArrayAdapterDatabaseConnection(new double[][]{{initialDataPoint, initialDataPoint}}), null);
+    private void initDatabase(double initialDataPoint, int dimensions) {
+    	double[][] initialVector = new double[1][dimensions];
+    	for (int i = 0; i<dimensions;i++){
+    		initialVector[0][i] = initialDataPoint;
+    	}
+        db = new HashmapDatabase(new ArrayAdapterDatabaseConnection(initialVector), null);
         db.initialize();
     }
 
@@ -72,7 +76,7 @@ public class ElkiLOFMessageSelector implements MessageSelector {
 
             if (result != null) {
                 double score = result.getScores().get(insertedId.iter()).doubleValue();
-                System.out.println("Score of new data point (" + newData[0] + ","+newData[1]+"): " + score);
+                //System.out.println("Score of new data point (" + newData[0] + ","+newData[1]+"): " + score);
                 return score > 2;
             } else {
                 return false;
