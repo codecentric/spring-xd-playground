@@ -59,7 +59,7 @@ public class ElkiLOFMessageSelector implements MessageSelector {
      * @see org.springframework.integration.core.MessageSelector#accept(org.springframework.messaging.Message)
      */
     @Override
-    public boolean accept(Message<?> message) {
+    public synchronized boolean accept(Message<?> message) {
     	if (!message.getHeaders().containsKey(ELKI_DOUBLE_VECTOR)){
     		message = defaultElkiLOFMessageTransformer.transform(message);
     	}
