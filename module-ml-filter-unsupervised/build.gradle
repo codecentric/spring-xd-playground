@@ -2,9 +2,28 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
+configurations {
+    // dependencies that should be included in the final jar
+    releaseJars
+    compile {
+        extendsFrom releaseJars
+    }
+}
+
 jar {
     baseName = 'module-ml-filter-unsupervised'
     version =  '1.0.0-SNAPSHOT'
+
+    from {
+        configurations.releaseJars.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    } {
+        exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+    }
 }
 
 repositories {
@@ -13,17 +32,14 @@ repositories {
     maven { url "http://maven.mei.fm/nexus/content/repositories/releases" }
 }
 
-// task to copy all dependencies to /build/output/lib
-// needed if you want to deploy the module (and all jars of all dependencies) to spring-xd
-task copyToLib(type: Copy) {
-    into "$buildDir/output/lib"
-    from configurations.runtime
-}
-
 dependencies {
-    compile("nz.ac.waikato.cms.weka:weka-stable:3.6.10")
+    // all other jars are already provided by spring-xd
+    // but the elki-jar has to be included explicitly in the final jar
+    releaseJars("de.lmu.ifi.dbs:elki:0.5.5")
+
     compile("org.springframework.integration:spring-integration-core:4.0.0.M1")
-    compile("de.lmu.ifi.dbs:elki:0.5.5")
     compile("org.codehaus.jackson:jackson-mapper-asl:1.9.13")
+    compile("log4j:log4j:1.2.17")
+
     testCompile("junit:junit:4.11")
 }

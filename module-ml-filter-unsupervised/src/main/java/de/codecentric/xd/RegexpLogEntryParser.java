@@ -1,8 +1,5 @@
 package de.codecentric.xd;
 
-import de.codecentric.xd.LogEntry;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
@@ -14,7 +11,8 @@ public class RegexpLogEntryParser implements LogEntryParser {
             "(?<ip>(?:\\d+\\.){3}\\d+)\\s+.*" +
                     "\\[(?<date>.*)\\]\\s+" +
                     "\"(?<method>\\S+)\\s+(?<path>\\S+)\\s+.*\"\\s+" +
-                    "(?<code>\\d+)\\s+(?<duration>\\d+)\\s+" +
+                    "(?<code>\\d+)\\s+" +
+                    "(?<size>\\d+)\\s+" +
                     "\"(?<referrer>[^\"]+)\"\\s+" +
                     "\"(?<agent>[^\"]+)\"");
     public static final String APACHE_DATE_FORMAT = "dd/MMM/yyyy:hh:mm:ss Z";
@@ -46,8 +44,6 @@ public class RegexpLogEntryParser implements LogEntryParser {
         } catch (ParseException e) {
             return null;
         }
-
-
     }
 
 }

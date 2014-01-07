@@ -15,7 +15,7 @@
                 <beans:list>
                     <beans:value>url</beans:value>
                     <beans:value>httpMethod</beans:value>
-                    <beans:value>duration</beans:value>
+                    <beans:value>size</beans:value>
                 </beans:list>
             </beans:constructor-arg>
         </beans:bean>
