@@ -30,7 +30,8 @@ public class ElkiLOFMessageSelector implements MessageSelector {
 	private LOF<NumberVector<Double>, DoubleDistance> lof;
     private UpdatableDatabase db;
     private OutlierResult result;
-    
+    private int dimensions;
+
     private Transformer defaultElkiLOFMessageTransformer = new DefaultElkiLOFMessageTransformer();
 
     public ElkiLOFMessageSelector(int dimensions) throws Exception {
@@ -46,6 +47,7 @@ public class ElkiLOFMessageSelector implements MessageSelector {
     	}
         db = new HashmapDatabase(new ArrayAdapterDatabaseConnection(initialVector), null);
         db.initialize();
+        this.dimensions = dimensions;
     }
 
     private void initLOF() {
@@ -64,6 +66,9 @@ public class ElkiLOFMessageSelector implements MessageSelector {
     		message = defaultElkiLOFMessageTransformer.transform(message);
     	}
         Double[] newData = message.getHeaders().get(ELKI_DOUBLE_VECTOR, Double[].class);
+        if (newData.length != dimensions) {
+            return false;
+        }
 
         try {
             Relation<Object> relation = db.getRelation(TypeUtil.DOUBLE_VECTOR_FIELD);
@@ -82,7 +87,8 @@ public class ElkiLOFMessageSelector implements MessageSelector {
                 return false;
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new RuntimeException("An error occured: " + e.getMessage(), e);
         }
     }
 }

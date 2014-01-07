@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/integration"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration
+		http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <channel id="input"/>
+
+    <transformer input-channel="input" output-channel="intermediate">
+        <beans:bean class="de.codecentric.xd.ml.unsupervised.JsonElkiLOFMessageTransformer">
+            <beans:constructor-arg name="fields">
+                <beans:list>
+                    <beans:value>url</beans:value>
+                    <beans:value>httpMethod</beans:value>
+                    <beans:value>duration</beans:value>
+                </beans:list>
+            </beans:constructor-arg>
+        </beans:bean>
+    </transformer>
+
+    <channel id="intermediate"/>
+
+    <filter input-channel="intermediate" output-channel="output">
+        <beans:bean class="de.codecentric.xd.ml.unsupervised.ElkiLOFMessageSelector">
+            <beans:constructor-arg name="dimensions" value="3"/>
+        </beans:bean>
+    </filter>
+
+    <channel id="output"/>
+
+</beans:beans>

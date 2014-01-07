@@ -13,6 +13,13 @@ repositories {
     maven { url "http://maven.mei.fm/nexus/content/repositories/releases" }
 }
 
+// task to copy all dependencies to /build/output/lib
+// needed if you want to deploy the module (and all jars of all dependencies) to spring-xd
+task copyToLib(type: Copy) {
+    into "$buildDir/output/lib"
+    from configurations.runtime
+}
+
 dependencies {
     compile("nz.ac.waikato.cms.weka:weka-stable:3.6.10")
     compile("org.springframework.integration:spring-integration-core:4.0.0.M1")

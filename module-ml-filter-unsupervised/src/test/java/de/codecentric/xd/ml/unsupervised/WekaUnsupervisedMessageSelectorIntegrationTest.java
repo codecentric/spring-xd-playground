@@ -3,11 +3,13 @@ package de.codecentric.xd.ml.unsupervised;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.messaging.support.GenericMessage;
 
 public class WekaUnsupervisedMessageSelectorIntegrationTest {
 
+    @Ignore
 	@Test
 	public void test() throws Exception {
 		WekaUnsupervisedMessageSelector wekaUnsupervisedMessageSelector = new WekaUnsupervisedMessageSelector();

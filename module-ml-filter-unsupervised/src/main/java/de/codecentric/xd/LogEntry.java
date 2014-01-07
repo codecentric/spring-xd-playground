@@ -14,22 +14,6 @@ public class LogEntry {
 	private int httpStatusCode;
 	private int duration;
 
-	public LogEntry(String logEntry) {
-		// TODO add error handling
-		String[] splittedEntry = logEntry.split("#");
-		try {
-			date = DateFormat.getDateTimeInstance().parse(splittedEntry[0]);
-		} catch (ParseException e) {
-			throw new IllegalArgumentException("Problem with parsing date.",e);
-		}
-		host = splittedEntry[1];
-		application = splittedEntry[2];
-		url = splittedEntry[3];
-		httpMethod = splittedEntry[4];
-		httpStatusCode = Integer.parseInt(splittedEntry[5]);
-		duration = Integer.parseInt(splittedEntry[6]);
-	}
-
 	public LogEntry(Date date, String host, String application, String url, 
 			String httpMethod, int httpStatusCode, int duration) {
 		this.date = date;
