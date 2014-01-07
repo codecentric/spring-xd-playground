@@ -21,6 +21,7 @@ public class DefaultLogEntryParser implements LogEntryParser {
         String httpMethod = splittedEntry[4];
         Integer httpStatusCode = Integer.parseInt(splittedEntry[5]);
         Integer duration = Integer.parseInt(splittedEntry[6]);
-        return new LogEntry(date, host, application, url, httpMethod, httpStatusCode, duration);
+        Integer size = Integer.parseInt(splittedEntry[7]);
+        return new LogEntry(date, host, application, url, httpMethod, httpStatusCode, duration, size);
     }
 }

@@ -40,7 +40,8 @@ public class RegexpLogEntryParser implements LogEntryParser {
                     matcher.group("path"),
                     matcher.group("method"),
                     Integer.parseInt(matcher.group("code")),
-                    Integer.parseInt(matcher.group("duration")));
+                    Integer.parseInt(matcher.group("size")),
+                    0);
         } catch (ParseException e) {
             return null;
         }

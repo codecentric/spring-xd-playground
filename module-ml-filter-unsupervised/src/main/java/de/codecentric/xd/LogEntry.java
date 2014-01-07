@@ -13,9 +13,10 @@ public class LogEntry {
 	private String httpMethod;
 	private int httpStatusCode;
 	private int duration;
+    private int size;
 
 	public LogEntry(Date date, String host, String application, String url, 
-			String httpMethod, int httpStatusCode, int duration) {
+			String httpMethod, int httpStatusCode, int duration, int size) {
 		this.date = date;
 		this.host = host;
 		this.application = application;
@@ -23,6 +24,7 @@ public class LogEntry {
 		this.httpMethod = httpMethod;
 		this.httpStatusCode = httpStatusCode;
 		this.duration = duration;
+        this.size = size;
 	}
 
 	public Date getDate() {
@@ -52,10 +54,12 @@ public class LogEntry {
 	public int getHttpStatusCode() {
 		return httpStatusCode;
 	}
+
+    public int getSize() { return size; }
 	
 	public String toString(){
 		String dateString = DateFormat.getDateTimeInstance().format(date);
-		return dateString+"#"+host+"#"+application+"#"+url+"#"+httpMethod+"#"+httpStatusCode+"#"+duration;  
+		return dateString+"#"+host+"#"+application+"#"+url+"#"+httpMethod+"#"+httpStatusCode+"#"+duration+"#"+size;
 	}
 
 }

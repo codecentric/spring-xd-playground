@@ -104,7 +104,7 @@ public class LogEntryElkiLOFMessageSelectorIntegrationTest {
 		}
     	
     	public LogEntry createLogEntry(){
-    		return new LogEntry(new Date(),"host","application",url,httpMethod,200,durationModel.getValue(System.currentTimeMillis()));
+    		return new LogEntry(new Date(),"host","application",url,httpMethod,200,durationModel.getValue(System.currentTimeMillis()), 0);
     	}
     	
     }

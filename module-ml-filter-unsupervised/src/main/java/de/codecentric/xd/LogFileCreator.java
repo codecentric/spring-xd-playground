@@ -41,7 +41,8 @@ public class LogFileCreator {
 				urlCreator.createUrl(),
 				"GET", 
 				200, 
-				durationDistributionModel.getValue(System.currentTimeMillis()));
+				durationDistributionModel.getValue(System.currentTimeMillis()),
+                0);
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(new BufferedWriter(new FileWriter(logFileName, true)));

@@ -21,7 +21,7 @@ public class JsonElkiLOFMessageTransformerIntegrationTest {
     	String[] fields = {"url","httpMethod","duration"};
 		JsonElkiLOFMessageTransformer transformer = new JsonElkiLOFMessageTransformer(fields);
 		LogEntry entry = new LogEntry(new Date(),"Host123","application123", "/contacts", 
-				"GET", 200, 123);
+				"GET", 200, 123, 123);
 		String jsonMessageText = mapper.writeValueAsString(entry);
 		Message<?> resultMessage = transformer.transform(new GenericMessage<String>(jsonMessageText));
     	
